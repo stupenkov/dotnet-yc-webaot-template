@@ -1,0 +1,21 @@
+name: CSharpier Formatting Check
+
+on: [pull_request]
+
+jobs:
+  format-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "9.x"
+
+      - name: Install CSharpier
+        run: dotnet tool restore
+
+      - name: Check code format
+        run: dotnet csharpier --check .
