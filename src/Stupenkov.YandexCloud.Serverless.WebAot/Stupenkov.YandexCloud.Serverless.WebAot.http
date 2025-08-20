@@ -1,0 +1,11 @@
+@Stupenkov.YandexCloud.Serverless.WebAot_HostAddress = http://localhost:5019
+
+GET {{Stupenkov.YandexCloud.Serverless.WebAot_HostAddress}}/todos/
+Accept: application/json
+
+###
+
+GET {{Stupenkov.YandexCloud.Serverless.WebAot_HostAddress}}/todos/1
+Accept: application/json
+
+###
