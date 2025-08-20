@@ -42,6 +42,6 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"stupenkov_dotnet-yc-webaot-template" /o:"stupenkov" /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"stupenkov_dotnet-yc-webaot-template" /o:"stupenkov" /d:sonar.token="$SONAR_TOKEN"
           dotnet build ./src -warnaserror
-          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="$SONAR_TOKEN"
