@@ -11,17 +11,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Change to src directory
-        run: cd ./src
-        shell: bash
-
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 9.x
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore ./src
 
       - name: Build
-        run: dotnet build --no-restore -warnaserror
+        run: dotnet build ./src --no-restore -warnaserror
