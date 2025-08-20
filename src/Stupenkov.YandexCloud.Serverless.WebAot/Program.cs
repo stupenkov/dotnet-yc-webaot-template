@@ -30,7 +30,7 @@ todosApi.MapGet(
 
 app.Run();
 
-public record Todo(int Id, string? Title, DateOnly? DueBy = null, bool IsComplete = false);
+internal sealed record Todo(int Id, string? Title, DateOnly? DueBy = null, bool IsComplete = false);
 
 [JsonSerializable(typeof(Todo[]))]
-internal partial class AppJsonSerializerContext : JsonSerializerContext { }
+internal sealed partial class AppJsonSerializerContext : JsonSerializerContext { }
