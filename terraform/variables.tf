@@ -19,6 +19,7 @@ variable "container_name" {
   default     = "my-serverless-container" #TODO: change this to your container name
 }
 
+# TODO: test urel
 variable "container_image" {
   description = "Docker image for serverless container"
   default     = "cr.yandex/crp-example/my-app:latest" # TODO: change this to your image
