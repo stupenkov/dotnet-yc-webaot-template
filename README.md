@@ -42,7 +42,8 @@ Where:
 
 ## Deployment to Yandex Cloud
 
-TODO...
+* [Terraform quik start](https://yandex.cloud/ru/docs/tutorials/infrastructure-management/terraform-quickstart)
+* [Install terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
 
 ## License
 
