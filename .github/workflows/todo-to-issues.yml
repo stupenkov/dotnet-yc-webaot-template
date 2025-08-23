@@ -7,9 +7,13 @@ jobs:
   scan-todos:
     runs-on: "ubuntu-latest"
     permissions:
+      contents: write
       issues: write
+      pull-requests: write
     steps:
       - uses: "actions/checkout@v4"
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: "TODO to Issue"
         uses: "alstr/todo-to-issue-action@v5"
         with:
@@ -19,7 +23,10 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
       - name: Commit and Push Changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          git remote set-url origin "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/${{ github.repository }}.git"
           git add -A
           if [[ `git status --porcelain` ]]; then
             git commit -m "Automatically added GitHub issue links to TODOs"
