@@ -45,6 +45,16 @@ Where:
 * [Terraform quik start](https://yandex.cloud/ru/docs/tutorials/infrastructure-management/terraform-quickstart)
 * [Install terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
 
+### Run Terraform
+
+```bash
+terraform init
+terraform plan -out=tfplan
+terraform apply tfplan
+```
+
+#TODO: add description, which evns you need to add...
+
 ## License
 
 MIT © [Anton Stupenkov](https://github.com/stupenkov)
