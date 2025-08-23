@@ -1,28 +1,23 @@
-# Service Account
-resource "yandex_iam_service_account" "sa" {
-  name = "serverless-sa"
+resource "yandex_resourcemanager_cloud" "app_cloud" {
+  name            = var.cloud_name
+  description     = "Cloud for hosting your application"
+  organization_id = var.organization_id
 }
 
-# IAM binding: give Service Account full access to serverless
-resource "yandex_resourcemanager_folder_iam_binding" "sa_binding" {
-  folder_id = var.folder_id
-  role      = "serverless.functions.invoker"
-  members = [
-    "serviceAccount:${yandex_iam_service_account.sa.id}"
-  ]
+resource "yandex_resourcemanager_folder" "production" {
+  cloud_id    = yandex_resourcemanager_cloud.app_cloud.id
+  name        = "env-production"
+  description = "Folder for production environment"
 }
 
-# Serverless Container
-resource "yandex_serverless_container" "container" {
-  name              = var.container_name
-  description       = "Example Serverless Container"
-  folder_id         = var.folder_id
-  memory            = 128 # Moved from resources block
-  execution_timeout = "15s"
-  cores             = 1 # Moved from resources block
-  core_fraction     = 5 # Moved from resources block
-
-  image {
-    url = var.container_image # Changed from 'name' to 'url'
-  }
+resource "yandex_resourcemanager_folder" "staging" {
+  cloud_id    = yandex_resourcemanager_cloud.app_cloud.id
+  name        = "env-staging"
+  description = "Folder for staging environment"
 }
+
+resource "yandex_billing_cloud_binding" "binding" {
+  billing_account_id = var.billing_account_id
+  cloud_id           = yandex_resourcemanager_cloud.app_cloud.id
+}
+
