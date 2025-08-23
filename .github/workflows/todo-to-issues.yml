@@ -1,8 +1,5 @@
 name: "Run TODO to Issue"
-on:
-  push:
-    branches:
-      - "main"
+on: ["push"]
 jobs:
   scan-todos:
     runs-on: "ubuntu-latest"
@@ -13,4 +10,4 @@ jobs:
       - name: "TODO to Issue"
         uses: "alstr/todo-to-issue-action@v5"
         with:
-          IDENTIFIERS: '[{"name": "TODO", "labels": ["todo"]}]'
+          IDENTIFIERS: '[{"name": "TODO", "labels": ["todo"], "filter": "^TODO: .{150,}"}]'
