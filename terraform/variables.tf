@@ -13,7 +13,8 @@ variable "folder_id" {
   description = "Yandex Cloud Folder ID"
   type        = string
 }
-
+# TODO: test url insert by workflow github action
+# here should be url
 variable "container_name" {
   description = "Name of serverless container"
   default     = "my-serverless-container" #TODO: change this to your container name
