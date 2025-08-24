@@ -52,6 +52,7 @@ First, you have to pass the variables to terraform:
 Next step:
 
 ```bash
+cd terraform
 terraform init
 terraform plan -var-file var.tfvars
 terraform apply -var-file var.tfvars -auto-approve
