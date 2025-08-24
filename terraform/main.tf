@@ -12,7 +12,7 @@ resource "yandex_billing_cloud_binding" "binding" {
 # Fix long-term billing binding
 resource "time_sleep" "wait_for_cloud_activation" {
   depends_on      = [yandex_billing_cloud_binding.binding]
-  create_duration = "60s"
+  create_duration = "30s"
 }
 
 module "app_environment" {

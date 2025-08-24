@@ -44,27 +44,49 @@ Where:
 
 ### Request resources
 
-First, you have to pass the variables to terraform:
+1. Initializing variables using a bash script
 
-* yc_token
-* billing_account_id
-* cloud_name
+    ```bash
+    ./init_vars.sh terraform-backend terraform
+    ```
 
-Next step:
+2. Set the variables in the **global.auto.tfvars** files located in the **terraform-backend**, **terraform** directories
 
-```bash
-cd terraform
-terraform init
-terraform plan -var-file var.tfvars
-terraform apply -var-file var.tfvars -auto-approve
-```
+3. Install the s3 backend for terraform state
+
+    ```bash
+    cd terraform-backend
+
+    terraform init
+    
+    terraform apply -auto-approve
+    ```
+
+4. Set environment variables
+
+    ```bash
+    export BUCKET_NAME=$(terraform output -raw bucket) && \
+    export ACCESS_KEY=$(terraform output -json cicd_static_access_key | jq -r .access_key) && \
+    export SECRET_KEY=$(terraform output -json cicd_static_access_key | jq -r .secret_key)
+
+    ```
+
+5. Install application resources
+
+    ```bash
+    cd terraform
+
+    terraform init -backend-config="bucket=$BUCKET_NAME" -backend-config="access_key=$ACCESS_KEY" -backend-config="secret_key=$SECRET_KEY" 
+
+    terraform apply -auto-approve
+    ```
 
 ### Destroy resources
 
-**Attention!** If you want to completely delete yandex cloud
+**Attention!** If you want to completely delete yandex cloud resources
 
 ```bash
-terraform destroy -var-file var.tfvars -auto-approve
+terraform destroy -auto-approve
 ```
 
 ## Useful documentation
