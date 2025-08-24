@@ -48,6 +48,7 @@ First, you have to pass the variables to terraform:
 
 * yc_token
 * billing_account_id
+* cloud_name
 
 Next step:
 
