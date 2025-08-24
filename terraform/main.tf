@@ -1,28 +1,29 @@
-# Service Account
-resource "yandex_iam_service_account" "sa" {
-  name = "serverless-sa"
+resource "yandex_resourcemanager_cloud" "app_cloud" {
+  name            = var.cloud_name
+  description     = "Cloud for ${var.cloud_name} application"
+  organization_id = var.organization_id
 }
 
-# IAM binding: give Service Account full access to serverless
-resource "yandex_resourcemanager_folder_iam_binding" "sa_binding" {
-  folder_id = var.folder_id
-  role      = "serverless.functions.invoker"
-  members = [
-    "serviceAccount:${yandex_iam_service_account.sa.id}"
-  ]
+resource "yandex_billing_cloud_binding" "binding" {
+  billing_account_id = var.billing_account_id
+  cloud_id           = yandex_resourcemanager_cloud.app_cloud.id
 }
 
-# Serverless Container
-resource "yandex_serverless_container" "container" {
-  name              = var.container_name
-  description       = "Example Serverless Container"
-  folder_id         = var.folder_id
-  memory            = 128 # Moved from resources block
-  execution_timeout = "15s"
-  cores             = 1 # Moved from resources block
-  core_fraction     = 5 # Moved from resources block
+# Fix long-term billing binding
+resource "time_sleep" "wait_for_cloud_activation" {
+  depends_on      = [yandex_billing_cloud_binding.binding]
+  create_duration = "30s"
+}
 
-  image {
-    url = var.container_image # Changed from 'name' to 'url'
-  }
+module "app_environment" {
+  for_each = var.environments
+
+  source = "./modules/app_environment"
+
+  cloud_id                = yandex_resourcemanager_cloud.app_cloud.id
+  environment_name        = each.key
+  environment_description = each.value.description
+  app_name                = var.app_name
+  depends_on              = [time_sleep.wait_for_cloud_activation]
+  # You can pass additional variables for specific environments.
 }

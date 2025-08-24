@@ -29,37 +29,11 @@ variable "billing_account_id" {
 }
 
 variable "cloud_name" {
-  description = "Yandex Cloud name for your application"
+  description = "Yandex Cloud name for your infrastructure"
   type        = string
-  default     = "prj-webaot-example" # You can change this to your cloud name
+  default     = "infrastructure" # You can change this to your cloud name
   validation {
     condition     = length(var.cloud_name) > 0
     error_message = "cloud_name must not be empty"
-  }
-}
-
-variable "app_name" {
-  description = "Application name"
-  type        = string
-  default     = "webaot"
-  validation {
-    condition     = length(var.app_name) > 0
-    error_message = "app_name must not be empty"
-  }
-}
-
-variable "environments" {
-  description = "Map of environments to create with their configurations"
-  type = map(object({
-    description = string
-    # You can add other environment-specific settings.
-  }))
-  default = {
-    production = {
-      description = "Production environment"
-    }
-    staging = {
-      description = "Staging environment"
-    }
   }
 }
